@@ -1,16 +1,15 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Card, CardContent, Grid, Box, TextField, withTheme } from '@material-ui/core'
-import NavBar from 'Component/NavBar'
-import ContactList from 'Component/ContactList'
+import { Card, CardContent, Grid, Box, TextField, withTheme, Typography } from '@material-ui/core'
+import GatewayList from 'Component/GatewayList'
 
-const Contact = ({ contact, handleChange, handleAdd, errors, theme }) => {
+const Gateway = ({ gateway, handleChange, handleAdd, errors, theme }) => {
     return (
         <Wrapper theme={theme}>
-            <NavBar />
             <StyledCard elevation={5}>
                 <StyledCardContent>
                     <WrapperAdd theme={theme}>
+                    <Typography variant='h5' align='center' color='textSecondary'>Add Gateway</Typography>
                         <StyledBox>
                             <Title>Name</Title>
                             <Content
@@ -18,7 +17,7 @@ const Contact = ({ contact, handleChange, handleAdd, errors, theme }) => {
                                 variant='outlined'
                                 size='small'
                                 focused
-                                value={contact.name}
+                                value={gateway.name}
                                 onChange={handleChange}
                                 required
                                 inputProps={{
@@ -28,38 +27,14 @@ const Contact = ({ contact, handleChange, handleAdd, errors, theme }) => {
                             />
                         </StyledBox>
                         <StyledBox>
-                            <Title>Address</Title>
+                            <Title>Ipv4Address</Title>
                             <Content
-                                name='address'
+                                name='ipv4Address'
                                 variant='outlined'
                                 size='small'
-                                value={contact.address}
+                                value={gateway.ipv4Address}
                                 onChange={handleChange}
-                                error={errors.address}
-                                required
-                            />
-                        </StyledBox>
-                        <StyledBox>
-                            <Title>Phone Number</Title>
-                            <Content
-                                name='phoneNumber'
-                                variant='outlined'
-                                size='small'
-                                value={contact.phoneNumber}
-                                onChange={handleChange}
-                                error={errors.phoneNumber}
-                                required
-                            />
-                        </StyledBox>
-                        <StyledBox>
-                            <Title>Email</Title>
-                            <Content
-                                name='email'
-                                variant='outlined'
-                                size='small'
-                                value={contact.email}
-                                onChange={handleChange}
-                                error={errors.email}
+                                error={errors.ipv4Address}
                                 required
                             />
                         </StyledBox>
@@ -67,14 +42,14 @@ const Contact = ({ contact, handleChange, handleAdd, errors, theme }) => {
                             <Action onClick={handleAdd}>Add</Action>
                         </Operations>
                     </WrapperAdd>
-                    <ContactList />
+                    <GatewayList />
                 </StyledCardContent>
             </StyledCard>
         </Wrapper>
     )
 }
 
-export default withTheme(Contact)
+export default withTheme(Gateway)
 
 const Wrapper = styled.div`
     width:60%;

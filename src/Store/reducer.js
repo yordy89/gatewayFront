@@ -1,24 +1,26 @@
-import { SET_CONTACT, ADD_CONTACT, REMOVE_CONTACT, EDIT_CONTACT } from './actions'
+import { SET_GATEWAY, ADD_GATEWAY, REMOVE_GATEWAY, EDIT_GATEWAY, GET_GATEWAY } from './actions'
 
 const initialState = {
-    contacts: []
+    gateways: []
 }
 
-export default function ContactReducer(state = initialState, actions) {
+export default function GatewayReducer(state = initialState, actions) {
     switch (actions.type) {
-        case SET_CONTACT:
-            return { ...state, contacts: actions.payload }
-        case ADD_CONTACT:
-            return { ...state, contacts: [...state.contacts, actions.payload] }
-        case REMOVE_CONTACT:
-            return { ...state, contacts: state.contacts.filter(c => c._id !== actions.payload._id) }
-        case EDIT_CONTACT:
+        case GET_GATEWAY:
+            return { ...state, gateways: actions.payload }
+        case SET_GATEWAY:
+            return { ...state, gateways: actions.payload }
+        case ADD_GATEWAY:
+            return { ...state, gateways: [...state.gateways, actions.payload] }
+        case REMOVE_GATEWAY:
+            return { ...state, gateways: state.gateways.filter(c => c._id !== actions.payload._id) }
+        case EDIT_GATEWAY:
             return {
-                ...state, contacts: state.contacts.map(contact => {
-                    if (contact._id === actions.payload._id) {
-                        contact = { ...contact, ...actions.payload }
+                ...state, gateways: state.gateways.map(gateway => {
+                    if (gateway._id === actions.payload._id) {
+                        gateway = { ...gateway, ...actions.payload }
                     }
-                    return contact
+                    return gateway
                 })
             }
         default:
@@ -26,30 +28,43 @@ export default function ContactReducer(state = initialState, actions) {
     }
 }
 
-export const setContacts = (contacts) => (dispatch) => {
+export const setGateways = (Gateways) => (dispatch) => {
     dispatch({
-        type: SET_CONTACT,
-        payload: contacts
+        type: SET_GATEWAY,
+        payload: Gateways
     })
 }
 
-export const addContact = (contact) => (dispatch) => {
+export const addGateway = (gateway) => (dispatch) => {
     dispatch({
-        type: ADD_CONTACT,
-        payload: contact
+        type: ADD_GATEWAY,
+        payload: gateway
     })
 }
 
-export const removeContact = (contact) => (dispatch) => {
+export const removeGateway = (gateway) => (dispatch) => {
     dispatch({
-        type: REMOVE_CONTACT,
-        payload: contact
+        type: REMOVE_GATEWAY,
+        payload: gateway
     })
 }
 
-export const editContact = (contact) => (dispatch) => {
+export const editGateway = (gateway) => (dispatch) => {
     dispatch({
-        type: EDIT_CONTACT,
-        payload: contact
+        type: EDIT_GATEWAY,
+        payload: gateway
+    })
+}
+
+export const getGateway = () => async (dispatch) => {
+    const gateways = await fetch(`${process.env.REACT_APP_API_URL}/gateway`, {
+        method: 'GET',
+        headers: {
+            "Content-Type": 'application/json'
+        }
+    });
+    dispatch({
+        type: GET_GATEWAY,
+        payload: await gateways.json()
     })
 }

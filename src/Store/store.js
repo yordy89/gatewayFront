@@ -1,9 +1,9 @@
 import { combineReducers, createStore, applyMiddleware, compose} from 'redux'
 import thunk from 'redux-thunk'
-import ContactReducer from './reducer'
+import GatewayReducer from './reducer'
 
 const reducers = combineReducers({
-    contacts: ContactReducer
+    gateways: GatewayReducer
 })
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()

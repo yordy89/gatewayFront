@@ -1,15 +1,14 @@
 import React from 'react'
-import Contact from './Contact'
-import useSetContact from 'Hooks/useSetContact'
+import Gateway from './Gateway'
+import useSetGateway from 'Hooks/useSetGateway'
 
 const Container = () => {
-    const { contact, handleChange, handleAdd, errors } = useSetContact()
-    
+    const { gateway, handleChange, handleAdd, errors } = useSetGateway()
     return (
-        <Contact
+        <Gateway
             handleChange={handleChange}
             handleAdd={handleAdd}
-            contact={contact}
+            gateway={gateway}
             errors={errors}
         />
     )

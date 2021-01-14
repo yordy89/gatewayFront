@@ -1,44 +1,42 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
-import ContactItem from './ContactItem'
-import { removeContact } from 'Store/reducer'
-import useSetContact from 'Hooks/useSetContact'
+import GatewayItem from './GatewayItem'
+import { removeGateway } from 'Store/reducer'
+import useSetGateway from 'Hooks/useSetGateway'
 
-const Container = ({ id, name, address, phoneNumber, email }) => {
+const Container = ({ id, name, ipv4Address }) => {
     const {
-        contact,
+        gateway,
         handleChange,
         handleEdit,
         edit,
         setEdit,
         errors
-    } = useSetContact(name, address, phoneNumber, email)
+    } = useSetGateway(name, ipv4Address)
     const dispatch = useDispatch()
 
     const handleDelete = (id) => {
-        fetch(`${process.env.REACT_APP_API_URL}/contact/${id}`, {
+        fetch(`${process.env.REACT_APP_API_URL}/gateway/${id}`, {
             method: 'Delete',
             headers: {
                 "Content-Type": 'application/json'
             }
         }).then(res => res.json())
-            .then(res => dispatch(removeContact(res)))
+            .then(res => dispatch(removeGateway(res)))
             .catch(e => console.log(e))
     }
 
     return (
         <Wrapper>
-            <ContactItem
+            <GatewayItem
                 id={id}
                 name={name}
-                address={address}
-                phoneNumber={phoneNumber}
-                email={email}
+                ipv4Address={ipv4Address}
                 handleDelete={handleDelete}
                 edit={edit}
                 setEdit={setEdit}
-                contact={contact}
+                gateway={gateway}
                 handleChange={handleChange}
                 handleEdit={handleEdit}
                 errors={errors}

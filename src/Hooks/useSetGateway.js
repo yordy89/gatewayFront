@@ -1,21 +1,19 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useDispatch } from 'react-redux'
-import { addContact, editContact } from 'Store/reducer'
+import { addGateway, editGateway } from 'Store/reducer'
 
-const useSetContact = (name = '', address = '', phoneNumber = 0, email = '') => {
+const useSetGateway = (name = '', ipv4Address = '') => {
     const dispatch = useDispatch()
     const [edit, setEdit] = useState(false)
     const [errors, setErrors] = useState({})
-    const [contact, setContact] = useState({
+    const [gateway, setGateway] = useState({
         name: name,
-        address: address,
-        phoneNumber: phoneNumber,
-        email: email
+        ipv4Address: ipv4Address,
     })
 
     const handleChange = (e) => {
-        setContact({
-            ...contact,
+        setGateway({
+            ...gateway,
             [e.target.name]: e.target.value
         })
 
@@ -23,10 +21,8 @@ const useSetContact = (name = '', address = '', phoneNumber = 0, email = '') => 
 
     const validations = () => {
         let errors = {}
-        errors.name = contact.name ? false : true
-        errors.address = contact.address ? false : true
-        errors.phoneNumber = contact.phoneNumber ? false : true
-        errors.email = contact.email ? false : true
+        errors.name = gateway.name ? false : true
+        errors.ipv4Address = gateway.ipv4Address ? false : true
         setErrors({
             ...errors
         })
@@ -34,28 +30,26 @@ const useSetContact = (name = '', address = '', phoneNumber = 0, email = '') => 
 
     useEffect(() => {
         validations()
-    }, [contact])
+    }, [gateway])
 
     const isError = () => {
-        return errors.name || errors.address || errors.phoneNumber || errors.email
+        return errors.name || errors.ipv4Address
     }
 
     const handleAdd = () => {
         !isError() &&
-            fetch(`${process.env.REACT_APP_API_URL}/contact`, {
+            fetch(`${process.env.REACT_APP_API_URL}/gateway`, {
                 method: 'POST',
                 headers: {
                     "Content-Type": 'application/json'
                 },
-                body: JSON.stringify(contact)
+                body: JSON.stringify(gateway)
             }).then(res => res.json())
                 .then(res => {
-                    dispatch(addContact(res))
-                    setContact({
+                    dispatch(addGateway(res))
+                    setGateway({
                         name: '',
-                        address: '',
-                        phoneNumber: 0,
-                        email: ''
+                        ipv4Address: '',
                     })
                 }).catch(e => console.log(e))
 
@@ -66,22 +60,22 @@ const useSetContact = (name = '', address = '', phoneNumber = 0, email = '') => 
             setEdit(true)
         } else {
             !isError() &&
-                fetch(`${process.env.REACT_APP_API_URL}/contact/${id}`, {
+                fetch(`${process.env.REACT_APP_API_URL}/gateway/${id}`, {
                     method: 'Put',
                     headers: {
                         "Content-Type": 'application/json'
                     },
-                    body: JSON.stringify(contact)
+                    body: JSON.stringify(gateway)
                 }).then(res => res.json())
                     .then(res => {
-                        dispatch(editContact(res))
+                        dispatch(editGateway(res))
                         setEdit(false)
                     })
                     .catch(e => console.log(e))
         }
     }
 
-    return { contact, handleChange, handleAdd, edit, setEdit, handleEdit, errors }
+    return { gateway, handleChange, handleAdd, edit, setEdit, handleEdit, errors }
 }
 
-export default useSetContact
+export default useSetGateway
